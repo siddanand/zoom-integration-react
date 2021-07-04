@@ -16,66 +16,6 @@ ZoomMtg.i18n.reload('en-US');
 
 
 function App() {
-  var currentlocation = window.location.href;
-try{
-  var b = currentlocation.split('=');
-  console.log(b);
-  let id = b[b.length -1];
-  console.log(id);
-}
-catch{
-  console.log("Invalid URL");
-}
-  async function getdata(){
-    var requestOptions1 = {
-     redirect: 'follow',
-     headers:{
-         'Accept': 'application/json',
-         'Content-Type': 'application/json',
-     },
-    };
-    const resp = await axios.get('https://ap.zinedu.com/student/get-live-class-join-status/?status_id='+id,requestOptions1)
-  return(resp.data);
-  }
-  async function main() {
-    let abc = await getdata();
-    console.log(abc);
-    let meetinglink  = abc.live_class_assoc.live_class_link;
-    console.log(meetinglink);
-    try{
-      meetingNumber = meetinglink.split('/')[4];
-        console.log(meetingNumber);
-    }
-    catch{
-      alert('meeting number not correct');
-    }
-    if(abc.is_disabled=="Yes"){
-      alert('Already in this meeting with this user');
-      window.location.href = 'https://main.zinedu.com/';
-    }
-    userName = abc.student_assoc.name;
-    mobilenumber = abc.student_assoc.mobile_number;
-    liveclassid = abc.live_class_assoc.id;
-    var formdata = new FormData();
-    formdata.append('is_disabled',"Yes");
-    var requestOptions = {
-       method: 'PUT',
-       body: formdata,
-       redirect: 'follow',
-       headers:{
-           // 'Authorization': 'Token '+ this.state.token
-       },
-     };
-    fetch('https://ap.zinedu.com/student/update-live-class-join-status/'+id+'/',requestOptions)
-    .then(response => response.json())
-    .then(json => {console.log(json.Success);
-
-       })
-      .catch(error => {
-        console.log(error);
-    });
-  }
-  main();
 
 
   var signatureEndpoint = 'http://zs.zinedu.com'
